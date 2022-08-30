@@ -18,7 +18,6 @@ await configureDB()
 
 const sessionStore = new MongoStore({
 	mongoUrl: MONGODB_URI,
-	// mongooseConnection: connection,
 	collection: 'session',
 
 })
@@ -70,6 +69,9 @@ passport.deserializeUser(async (id, done) => {
 app.use(passport.initialize())
 app.use(passport.session())
 
+app.get("/health", (req, res) => {
+	return res.status(200).json({message: "OK"})
+})
 app.use('/api/auth', authRouter)
 
 app.use(unknownEndpoint)
